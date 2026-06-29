@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Rendering & Industry Marketing — LeadSite Studio</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --royal: #1B3DBE; --royal-dark: #142E96; --royal-deep: #0E1F6B;
+    --baby: #5B9BF0; --sky: #A8D4FF; --sky-light: #E0EEFD;
+    --white: #FFFFFF; --off: #F5F7FC; --ink: #0A0F1E;
+    --ink-mid: #3A4260; --ink-muted: #7B85A3; --border: rgba(27,61,190,0.12);
+    --font-display: 'Space Grotesk', sans-serif; --font-body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--white); color: var(--ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: rgba(10,15,30,0.85); backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-logo { display: flex; align-items: center; }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a.active { color: var(--white); }
+  .nav-cta { background: var(--royal); color: var(--white) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; }
+
+  /* HERO */
+  .page-hero {
+    background: var(--royal-deep); padding: 140px 24px 80px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .page-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(91,155,240,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(91,155,240,0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .page-hero-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+  .eyebrow { font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky); background: rgba(91,155,240,0.12); border: 1px solid rgba(91,155,240,0.25); padding: 6px 14px; border-radius: 4px; display: inline-block; margin-bottom: 24px; }
+  .page-title { font-family: var(--font-display); font-size: clamp(36px, 6vw, 64px); font-weight: 700; letter-spacing: -1.5px; color: var(--white); line-height: 1.05; margin-bottom: 20px; }
+  .page-title span { color: var(--baby); }
+  .page-sub { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 520px; margin: 0 auto 40px; }
+  .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; margin-bottom: 32px; }
+  .back-link:hover { color: var(--white); }
+
+  /* FILTER TABS */
+  .filter-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 64px; z-index: 50; }
+  .filter-inner { max-width: 1080px; margin: 0 auto; display: flex; gap: 4px; padding: 12px 0; overflow-x: auto; }
+  .filter-btn { font-family: var(--font-display); font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--ink-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+  .filter-btn:hover { border-color: var(--royal); color: var(--royal); }
+  .filter-btn.active { background: var(--royal); color: var(--white); border-color: var(--royal); }
+
+  /* GRID */
+  .section { padding: 72px 24px; }
+  .section-inner { max-width: 1080px; margin: 0 auto; }
+  .section-label { font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--royal); margin-bottom: 32px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+  .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .video-card { border-radius: 12px; overflow: hidden; background: var(--ink); border: 1px solid rgba(255,255,255,0.06); transition: transform 0.25s, box-shadow 0.25s; }
+  .video-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(27,61,190,0.18); }
+  .video-card.featured { grid-column: span 2; }
+
+  .video-slot {
+    background: #0D1829; aspect-ratio: 16/9; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px; position: relative; overflow: hidden;
+  }
+  .video-card.featured .video-slot { aspect-ratio: 16/9; }
+
+  .video-slot video { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+
+  .placeholder-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(27,61,190,0.3); border: 1px solid rgba(91,155,240,0.3);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .placeholder-text { font-size: 11px; color: rgba(255,255,255,0.3); text-align: center; font-family: var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .video-info { padding: 18px 20px; }
+  .video-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--baby); margin-bottom: 6px; }
+  .video-title { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .video-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+  /* CTA STRIP */
+  .cta-strip { background: var(--off); padding: 64px 24px; text-align: center; border-top: 1px solid var(--border); }
+  .cta-strip h2 { font-family: var(--font-display); font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: -0.5px; color: var(--ink); margin-bottom: 12px; }
+  .cta-strip p { font-size: 15px; color: var(--ink-muted); margin-bottom: 28px; }
+  .btn-primary { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--white); background: var(--royal); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--royal-dark); }
+  .btn-outline { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--royal); background: transparent; border: 1.5px solid var(--royal); padding: 13px 28px; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block; margin-left: 12px; transition: all 0.2s; }
+  .btn-outline:hover { background: var(--royal); color: var(--white); }
+
+  footer { background: #0A0F1E; padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+  .footer-back { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; }
+  .footer-back:hover { color: var(--white); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .video-grid { grid-template-columns: 1fr; }
+    .video-card.featured { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="LeadSite Studio" style="height:44px;width:auto;object-fit:contain;filter:brightness(0) invert(1);">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="marketing.html" class="active">Marketing</a></li>
+    <li><a href="web-dev.html">Web Dev</a></li>
+    <li><a href="ai-solutions.html">AI Solutions</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3L3 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to LeadSite Studio
+    </a>
+    <div class="eyebrow">Industry-Specific Marketing</div>
+    <h1 class="page-title">3D Rendering for <span>Commercial, Fashion,</span> and Real Estate.</h1>
+    <p class="page-sub">Photorealistic renders and AI video that sell properties, launch collections, and market spaces before they are built.</p>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-btn active" onclick="filterVideos('all', this)">All Work</button>
+    <button class="filter-btn" onclick="filterVideos('real-estate', this)">Real Estate</button>
+    <button class="filter-btn" onclick="filterVideos('commercial', this)">Commercial</button>
+    <button class="filter-btn" onclick="filterVideos('fashion', this)">Fashion</button>
+    <button class="filter-btn" onclick="filterVideos('ugc', this)">UGC Ads</button>
+    <button class="filter-btn" onclick="filterVideos('social', this)">Social Media</button>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">Featured Work</div>
+    <div class="video-grid" id="videoGrid">
+
+      <!-- FEATURED SLOT — replace src with your video file -->
+      <div class="video-card featured" data-category="real-estate">
+        <div class="video-slot">
+          <!-- TO ADD VIDEO: <video autoplay muted loop playsinline><source src="YOUR-VIDEO.mp4" type="video/mp4"></video> -->
+          <div class="placeholder-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l9 6-9 6V4z" fill="rgba(91,155,240,0.8)"/></svg>
+          </div>
+          <div class="placeholder-text">Drop video here<br>Real Estate Render</div>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">Real Estate</div>
+          <div class="video-title">Luxury Property Visualization</div>
+          <div class="video-desc">Add your project description here — client name, property type, result.</div>
+        </div>
+      </div>
+
+      <!-- SLOT 2 -->
+      <div class="video-card" data-category="real-estate">
+        <div class="video-slot">
+          <div class="placeholder-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l9 6-9 6V4z" fill="rgba(91,155,240,0.8)"/></svg></div>
+          <div class="placeholder-text">Drop video here</div>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">Real Estate</div>
+          <div class="video-title">Project Name Here</div>
+          <div class="video-desc">Description of the project and result.</div>
+        </div>
+      </div>
+
+      <!-- SLOT 3 -->
+      <div class="video-card" data-category="commercial">
+        <div class="video-slot">
+          <div class="placeholder-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l9 6-9 6V4z" fill="rgba(91,155,240,0.8)"/></svg></div>
+          <div class="placeholder-text">Drop video here</div>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">Commercial</div>
+          <div class="video-title">Project Name Here</div>
+          <div class="video-desc">Description of the project and result.</div>
+        </div>
+      </div>
+
+      <!-- SLOT 4 -->
+      <div class="video-card" data-category="fashion">
+        <div class="video-slot">
+          <div class="placeholder-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l9 6-9 6V4z" fill="rgba(91,155,240,0.8)"/></svg></div>
+          <div class="placeholder-text">Drop video here</div>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">Fashion</div>
+          <div class="video-title">Project Name Here</div>
+          <div class="video-desc">Description of the project and result.</div>
+        </div>
+      </div>
+
+      <!-- SLOT 5 -->
+      <div class="video-card" data-category="ugc">
+        <div class="video-slot">
+          <div class="placeholder-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l9 6-9 6V4z" fill="rgba(91,155,240,0.8)"/></svg></div>
+          <div class="placeholder-text">Drop video here</div>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">UGC Ad</div>
+          <div class="video-title">Project Name Here</div>
+          <div class="video-desc">Description of the project and result.</div>
+        </div>
+      </div>
+
+      <!-- SLOT 6 -->
+      <div class="video-card" data-category="social">
+        <div class="video-slot">
+          <div class="placeholder-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l9 6-9 6V4z" fill="rgba(91,155,240,0.8)"/></svg></div>
+          <div class="placeholder-text">Drop video here</div>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">Social Media</div>
+          <div class="video-title">Project Name Here</div>
+          <div class="video-desc">Description of the project and result.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <h2>Ready to see what your property or brand could look like?</h2>
+  <p>We produce renders and video content that move buyers, investors, and customers to action.</p>
+  <a href="index.html#contact" class="btn-primary">Get a free strategy call</a>
+  <a href="index.html" class="btn-outline">Back to home</a>
+</div>
+
+<footer>
+  <span class="footer-copy">© 2025 LeadSite Consulting LLC</span>
+  <a href="index.html" class="footer-back">Back to LeadSite Studio</a>
+</footer>
+
+<script>
+function filterVideos(category, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.video-card').forEach(card => {
+    if (category === 'all' || card.dataset.category === category) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>
