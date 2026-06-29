@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Development — LeadSite Studio</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --royal: #1B3DBE; --royal-dark: #142E96; --royal-deep: #0E1F6B;
+    --baby: #5B9BF0; --sky: #A8D4FF; --sky-light: #E0EEFD;
+    --white: #FFFFFF; --off: #F5F7FC; --ink: #0A0F1E;
+    --ink-mid: #3A4260; --ink-muted: #7B85A3; --border: rgba(27,61,190,0.12);
+    --font-display: 'Space Grotesk', sans-serif; --font-body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--white); color: var(--ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 64px; background: rgba(10,15,30,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-cta { background: var(--royal); color: var(--white) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; }
+
+  .page-hero { background: var(--royal-deep); padding: 140px 24px 80px; text-align: center; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(91,155,240,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(91,155,240,0.06) 1px, transparent 1px); background-size: 64px 64px; }
+  .page-hero-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+  .eyebrow { font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky); background: rgba(91,155,240,0.12); border: 1px solid rgba(91,155,240,0.25); padding: 6px 14px; border-radius: 4px; display: inline-block; margin-bottom: 24px; }
+  .page-title { font-family: var(--font-display); font-size: clamp(36px, 6vw, 64px); font-weight: 700; letter-spacing: -1.5px; color: var(--white); line-height: 1.05; margin-bottom: 20px; }
+  .page-title span { color: var(--baby); }
+  .page-sub { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 520px; margin: 0 auto; }
+  .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; margin-bottom: 32px; }
+  .back-link:hover { color: var(--white); }
+
+  /* STATS BAR */
+  .stats-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 28px 24px; }
+  .stats-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+  .stat-num { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--royal); letter-spacing: -1px; }
+  .stat-label { font-size: 12px; color: var(--ink-muted); margin-top: 4px; }
+
+  /* PROJECT CARDS */
+  .section { padding: 72px 24px; }
+  .section-inner { max-width: 1080px; margin: 0 auto; }
+  .section-eyebrow { font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--royal); margin-bottom: 12px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(24px, 3vw, 36px); font-weight: 700; letter-spacing: -0.6px; color: var(--ink); margin-bottom: 48px; }
+
+  .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .project-card { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--white); transition: box-shadow 0.25s, transform 0.25s; }
+  .project-card:hover { box-shadow: 0 8px 32px rgba(27,61,190,0.1); transform: translateY(-3px); }
+  .project-card.full { grid-column: span 2; display: grid; grid-template-columns: 1.2fr 1fr; }
+
+  /* Browser mockup */
+  .browser-wrap { background: #F2F2F7; padding: 16px 16px 0; }
+  .browser-chrome { background: #fff; border-radius: 10px 10px 0 0; border: 1px solid #e0e0e5; border-bottom: none; overflow: hidden; }
+  .browser-bar { background: #F8F8F8; border-bottom: 1px solid #e8e8ec; padding: 8px 12px; display: flex; align-items: center; gap: 8px; }
+  .b-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .browser-url { flex: 1; background: #EBEBEB; border-radius: 4px; height: 20px; display: flex; align-items: center; padding: 0 10px; }
+  .browser-url span { font-size: 10px; color: #8E8E93; font-family: -apple-system, sans-serif; }
+
+  /* Placeholder screen */
+  .screen-placeholder { aspect-ratio: 16/9; background: linear-gradient(135deg, #1B3DBE, #3B6FE8); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .screen-placeholder img { width: 100%; height: 100%; object-fit: cover; }
+  .screen-placeholder-inner { text-align: center; }
+  .screen-placeholder-label { font-size: 11px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-display); }
+
+  .project-info { padding: 24px; }
+  .project-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--royal); margin-bottom: 8px; }
+  .project-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .project-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.7; margin-bottom: 16px; }
+  .project-result { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--royal); background: var(--sky-light); padding: 6px 12px; border-radius: 20px; margin-bottom: 16px; }
+  .project-link { font-size: 13px; font-weight: 600; color: var(--royal); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+  .project-link:hover { text-decoration: underline; }
+
+  .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .tech-tag { font-size: 10px; font-weight: 600; color: var(--ink-mid); background: var(--off); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; }
+
+  .cta-strip { background: var(--off); padding: 64px 24px; text-align: center; border-top: 1px solid var(--border); }
+  .cta-strip h2 { font-family: var(--font-display); font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: -0.5px; color: var(--ink); margin-bottom: 12px; }
+  .cta-strip p { font-size: 15px; color: var(--ink-muted); margin-bottom: 28px; }
+  .btn-primary { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--white); background: var(--royal); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--royal-dark); }
+  .btn-outline { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--royal); background: transparent; border: 1.5px solid var(--royal); padding: 13px 28px; border-radius: 6px; text-decoration: none; display: inline-block; margin-left: 12px; transition: all 0.2s; }
+  .btn-outline:hover { background: var(--royal); color: var(--white); }
+  footer { background: #0A0F1E; padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+  .footer-back { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; }
+  .footer-back:hover { color: var(--white); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .project-grid { grid-template-columns: 1fr; }
+    .project-card.full { grid-column: span 1; grid-template-columns: 1fr; }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">
+    <img src="logo.png" alt="LeadSite Studio" style="height:44px;width:auto;object-fit:contain;filter:brightness(0) invert(1);">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="marketing.html">Marketing</a></li>
+    <li><a href="web-dev.html" class="active">Web Dev</a></li>
+    <li><a href="ai-solutions.html">AI Solutions</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3L3 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to LeadSite Studio
+    </a>
+    <div class="eyebrow">Web Development</div>
+    <h1 class="page-title">Sites that <span>rank, convert,</span> and represent your brand.</h1>
+    <p class="page-sub">Custom builds, landing pages, QR digital business cards, redesigns, and SEO — deployed fast and built to be found.</p>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div><div class="stat-num">12+</div><div class="stat-label">Sites Delivered</div></div>
+    <div><div class="stat-num">5.0</div><div class="stat-label">Google Rating</div></div>
+    <div><div class="stat-num">5</div><div class="stat-label">Days Avg. Launch</div></div>
+    <div><div class="stat-num">100%</div><div class="stat-label">On-Time Delivery</div></div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Client Work</div>
+    <div class="section-title">Every site built to perform.</div>
+
+    <div class="project-grid">
+
+      <!-- PROJECT 1 — Licom AI (full width) -->
+      <div class="project-card full">
+        <div class="browser-wrap">
+          <div class="browser-chrome">
+            <div class="browser-bar">
+              <div class="b-dot" style="background:#FF5F57;"></div>
+              <div class="b-dot" style="background:#FFBD2E;"></div>
+              <div class="b-dot" style="background:#28C840;"></div>
+              <div class="browser-url"><span>licom.ai</span></div>
+            </div>
+            <div class="screen-placeholder">
+              <!-- TO ADD SCREENSHOT: <img src="licom-screenshot.jpg" alt="Licom AI"> -->
+              <div class="screen-placeholder-inner">
+                <div class="screen-placeholder-label">Drop screenshot here<br>licom.ai</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-info" style="padding:32px;">
+          <div class="project-tag">AI Startup</div>
+          <div class="project-name">Licom AI</div>
+          <p class="project-desc">Full website design and development for an AI consulting and implementation agency targeting growth-stage companies. Built to position Licom as an institutional-grade AI partner.</p>
+          <div class="project-result">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#1B3DBE" stroke-width="1.5" stroke-linecap="round"/></svg>
+            5-star Google review from founder Zackary Hanna
+          </div>
+          <div class="tech-tags">
+            <span class="tech-tag">HTML/CSS/JS</span>
+            <span class="tech-tag">Custom Design</span>
+            <span class="tech-tag">Netlify</span>
+          </div>
+          <br>
+          <a href="https://licom.ai" target="_blank" rel="noopener" class="project-link">
+            View live site
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="#1B3DBE" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- PROJECT 2 -->
+      <div class="project-card">
+        <div class="browser-wrap">
+          <div class="browser-chrome">
+            <div class="browser-bar">
+              <div class="b-dot" style="background:#FF5F57;"></div>
+              <div class="b-dot" style="background:#FFBD2E;"></div>
+              <div class="b-dot" style="background:#28C840;"></div>
+              <div class="browser-url"><span>sargentresurfacing.com</span></div>
+            </div>
+            <div class="screen-placeholder" style="aspect-ratio:4/3;">
+              <!-- TO ADD: <img src="sargent-screenshot.jpg" alt="Sargent Resurfacing"> -->
+              <div class="screen-placeholder-inner"><div class="screen-placeholder-label">Drop screenshot here<br>Sargent Resurfacing</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-tag">Home Services</div>
+          <div class="project-name">Sargent Resurfacing LLC</div>
+          <p class="project-desc">Professional site built so customers can get quotes, send emails, and call directly. Launched in days.</p>
+          <div class="tech-tags"><span class="tech-tag">HTML/CSS/JS</span><span class="tech-tag">Lead Capture</span></div>
+        </div>
+      </div>
+
+      <!-- PROJECT 3 -->
+      <div class="project-card">
+        <div class="browser-wrap">
+          <div class="browser-chrome">
+            <div class="browser-bar">
+              <div class="b-dot" style="background:#FF5F57;"></div>
+              <div class="b-dot" style="background:#FFBD2E;"></div>
+              <div class="b-dot" style="background:#28C840;"></div>
+              <div class="browser-url"><span>esthersonskitchen.com</span></div>
+            </div>
+            <div class="screen-placeholder" style="aspect-ratio:4/3;">
+              <!-- TO ADD: <img src="esthers-screenshot.jpg" alt="Esthers Sons Kitchen"> -->
+              <div class="screen-placeholder-inner"><div class="screen-placeholder-label">Drop screenshot here<br>Esthers Sons Kitchen</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-tag">Restaurant</div>
+          <div class="project-name">Esthers Sons Kitchen</div>
+          <p class="project-desc">Website and social media presence for a Geneva NY restaurant. Owner Rafael Diaz reported strong results from day one.</p>
+          <div class="tech-tags"><span class="tech-tag">HTML/CSS/JS</span><span class="tech-tag">Social Media</span></div>
+        </div>
+      </div>
+
+      <!-- PROJECT 4 — Placeholder for next client -->
+      <div class="project-card">
+        <div class="browser-wrap">
+          <div class="browser-chrome">
+            <div class="browser-bar">
+              <div class="b-dot" style="background:#FF5F57;"></div>
+              <div class="b-dot" style="background:#FFBD2E;"></div>
+              <div class="b-dot" style="background:#28C840;"></div>
+              <div class="browser-url"><span>yourclient.com</span></div>
+            </div>
+            <div class="screen-placeholder" style="aspect-ratio:4/3;">
+              <div class="screen-placeholder-inner"><div class="screen-placeholder-label">Add next project here</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-tag">Industry</div>
+          <div class="project-name">Client Name Here</div>
+          <p class="project-desc">Project description — what was built, what problem it solved, what result it produced.</p>
+          <div class="tech-tags"><span class="tech-tag">Tech used</span></div>
+        </div>
+      </div>
+
+      <!-- PROJECT 5 — Placeholder -->
+      <div class="project-card">
+        <div class="browser-wrap">
+          <div class="browser-chrome">
+            <div class="browser-bar">
+              <div class="b-dot" style="background:#FF5F57;"></div>
+              <div class="b-dot" style="background:#FFBD2E;"></div>
+              <div class="b-dot" style="background:#28C840;"></div>
+              <div class="browser-url"><span>yourclient.com</span></div>
+            </div>
+            <div class="screen-placeholder" style="aspect-ratio:4/3;">
+              <div class="screen-placeholder-inner"><div class="screen-placeholder-label">Add next project here</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-tag">Industry</div>
+          <div class="project-name">Client Name Here</div>
+          <p class="project-desc">Project description — what was built, what problem it solved, what result it produced.</p>
+          <div class="tech-tags"><span class="tech-tag">Tech used</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <h2>Need a site that actually brings in business?</h2>
+  <p>Most sites look decent and do nothing. We build ones that work.</p>
+  <a href="index.html#contact" class="btn-primary">Get a free strategy call</a>
+  <a href="index.html" class="btn-outline">Back to home</a>
+</div>
+
+<footer>
+  <span class="footer-copy">© 2025 LeadSite Consulting LLC</span>
+  <a href="index.html" class="footer-back">Back to LeadSite Studio</a>
+</footer>
+</body>
+</html>
